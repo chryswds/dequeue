@@ -74,6 +74,14 @@ public class Product {
         return true;
     }
 
+    static boolean checkEmpty(){
+        if(productQueue.isEmpty()){
+            return false;
+        }
+        return true;
+    }
+
+
 
     static void addProd(){
         if (checkLimits()) {
@@ -168,8 +176,12 @@ public class Product {
     }
 
     static void showItems(){
-        for (Product p : productQueue) {
-            System.out.println(p + " ");
+        if(productQueue.isEmpty()) {
+            System.out.println("All trays are empty");
+        } else {
+            for (Product p : productQueue) {
+                System.out.println(p + " ");
+            }
         }
     }
 

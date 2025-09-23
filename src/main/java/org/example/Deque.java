@@ -28,6 +28,10 @@ public class Deque<Item> implements Iterable<Item> {
         return size;
     }
 
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
 
 
     public void addFirst(Item item){
