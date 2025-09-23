@@ -203,7 +203,7 @@ public class Product {
         boolean validType = false;
         while (!validType) {
 
-            System.out.println("What tipe of food do you want to search for? ");
+            System.out.println("What type of food do you want to search for? ");
             for (Type t : Type.values()) {
                 System.out.println(t);
             }
@@ -217,11 +217,19 @@ public class Product {
             }
         }
 
-        for  (Product p : productQueue) {
+        boolean found = false;
+
+
+        for (Product p : productQueue) {
             if (p.getType() == type) {
                 System.out.println(p + " ");
+                found = true;
             }
         }
+        if(!found){
+            System.out.println("No results found");
+        }
+
         return null;
 
     }
