@@ -178,6 +178,11 @@ public class Product {
     static void showItems(){
         if(productQueue.isEmpty()) {
             System.out.println("All trays are empty");
+        } else if (!checkLimits()) {
+            for (Product p : productQueue) {
+                System.out.println(p + " ");
+            }
+            System.out.println("TRAY IS FULL");
         } else {
             for (Product p : productQueue) {
                 System.out.println(p + " ");
