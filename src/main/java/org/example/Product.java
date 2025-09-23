@@ -231,6 +231,6 @@ public class Product {
         String addedDate = (getDate() != null) ? format.format(getDate()) : "N/A";
         String bestBeforeDate = (getBestBefore() != null) ? format.format(getBestBefore()) : "N/A";
 
-        return "Type: " + getType() + ", Name: " + getName() + ", Weight: " + getWeight() + ", Time Added: " + addedDate + ", Best Before: " + bestBeforeDate ;
+        return "Type: " + getType() + ", Name: " + getName() + ", Weight: " + getWeight() + "g" + ", Time Added: " + addedDate + ", Best Before: " + bestBeforeDate ;
     }
 }
