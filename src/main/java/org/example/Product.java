@@ -3,6 +3,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Product {
@@ -44,26 +45,6 @@ public class Product {
         return date;
     }
 
-    public void setType(Type type) {
-        this.type = type;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setWeight(double weight) {
-        this.weight = weight;
-    }
-
-    public void setBestBefore(Date bestBefore) {
-        this.bestBefore = bestBefore;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
     public static Deque<Product> getProductQueue() {
         return productQueue;
     }
@@ -73,6 +54,45 @@ public class Product {
     }
 
     static Deque<Product> productQueue = new Deque<>();
+    static Scanner scanner  = new Scanner(System.in);
+
+    static void mainMenu(){
+        int choice = 0;
+        while(choice != 4) {
+            try {
+                System.out.println("-----TRAY----");
+                showItems();
+                System.out.println("--------------");
+                System.out.println("\n--- Menu ---");
+                System.out.println("1. Add Product");
+                System.out.println("2. Remove Product");
+                System.out.println("3. Search Product category");
+                System.out.println("4. Exit");
+                System.out.println("5. Load Dummy Data");
+                System.out.print("Choose an option: ");
+                choice = scanner.nextInt();
+                switch (choice) {
+                    case 1:
+                        addProd();
+                        break;
+                    case 2:
+                        removeProd();
+                        break;
+                    case 3:
+                        searchFoodType();
+                        break;
+                    case 5:
+                        loadDummyData();
+                        break;
+                    default:
+                        System.out.println("Choose between 1 and 5");
+                }
+            }catch (Exception e){
+                System.out.println("Invalid choice - insert a number");
+                scanner.nextLine();
+            }
+        }
+    }
 
     static boolean checkLimits(){
         int maxSize = 8;
@@ -87,6 +107,7 @@ public class Product {
         Type type = null;
         boolean validType = false;
         while (!validType) {
+            System.out.println("Choose a type of food:  ");
             for (Type t : Type.values()) {
                 System.out.println(t.getDisplayName());
             }
@@ -127,70 +148,19 @@ public class Product {
 
     static void addProd(){
         if (checkLimits()) {
-
-            Scanner scanner = new Scanner(System.in);
             // TYPE
             //Prints ENUM and let the user choose by typing
-            System.out.println("Choose a type of food: ");
             Type type = foodTypeMenu();
-
             // NAME
             // User can choose name of the food
             System.out.println("Choose a name of food: ");
             String userInputName = scanner.nextLine();
-
             // WEIGHT
-            double weight = -1;
-            boolean validWeight = false;
-            while (!validWeight) {
-                // user specifies how much the food weights
-                System.out.println("How much it weights? (grams)");
-                double weightInput = scanner.nextDouble();
-                try {
-                    weight = weightInput;
-                    if (weight > 0) {
-                        validWeight = true;
-                    } else {
-                        System.out.println("Invalid weight, it must be positive");
-                    }
-                } catch (NumberFormatException e) {
-                    System.out.println("invalid number, please enter a valid number");
-                }
-            }
-
+            double weight = productWeight();
             // prevents recursion
             scanner.nextLine();
-
-
             // DATE
-            Date date = null;
-            boolean validDate = false;
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-            dateFormat.setLenient(false);
-            while (!validDate) {
-                System.out.print("Enter best before date (dd/MM/yyyy): ");
-                String inputDate = scanner.nextLine();
-                try {
-                    date = dateFormat.parse(inputDate);
-                    Date today = new Date();
-
-                    Calendar currentDateAfter2Weeks = Calendar.getInstance();
-                    currentDateAfter2Weeks.add(Calendar.DAY_OF_WEEK, 14);
-                    Date twoWeeksLater = currentDateAfter2Weeks.getTime();
-
-                    if (date.after(twoWeeksLater)) {
-                        System.out.println("the best before date cant be more than 2 weeks from today");
-                    } else if (date.before(today)) {
-                        System.out.println("The date cannot be in the past");
-                    } else {
-                        validDate = true;
-                    }
-                } catch (ParseException e) {
-                    System.out.println("invalid date, please enter a valid date");
-                }
-            }
-
-
+            Date date = validate2weeks();
             // CREATE PRODUCT
             Product foodItem = new Product(type, userInputName, weight, date);
             productQueue.addFirst(foodItem);
@@ -201,9 +171,60 @@ public class Product {
 
     }
 
+    static Date validate2weeks(){
+        Scanner scanner = new Scanner(System.in);
+        Date date = null;
+        boolean validDate = false;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        dateFormat.setLenient(false);
+        while (!validDate) {
+            System.out.print("Enter best before date (dd/MM/yyyy) - (Max 2 weeks from today) : ");
+            String inputDate = scanner.nextLine();
+            try {
+                date = dateFormat.parse(inputDate);
+                Date today = new Date();
 
+                Calendar currentDateAfter2Weeks = Calendar.getInstance();
+                currentDateAfter2Weeks.add(Calendar.DAY_OF_WEEK, 14);
+                Date twoWeeksLater = currentDateAfter2Weeks.getTime();
 
+                if (date.after(twoWeeksLater)) {
+                    System.out.println("the best before date cant be more than 2 weeks from today");
+                } else if (date.before(today)) {
+                    System.out.println("The date cannot be in the past");
+                } else {
 
+                    validDate = true;
+                    return date;
+                }
+            } catch (ParseException e) {
+                System.out.println("invalid date, please enter a valid date");
+            }
+        }
+        return null;
+    }
+
+    static double productWeight(){
+        double weight = -1;
+        boolean validWeight = false;
+        while (!validWeight) {
+            // user specifies how much the food weights
+            System.out.println("How much it weights? (grams)");
+            try {
+                weight = scanner.nextDouble();
+                if (weight > 0) {
+                    validWeight = true;
+                    return weight;
+                } else {
+                    System.out.println("Invalid weight, it must be positive");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("invalid number, please enter a valid number");
+                scanner.nextLine();
+            }
+        }
+        return weight;
+    }
 
     static void peekFirstItem(){
         if(productQueue.isEmpty()) {
@@ -244,7 +265,6 @@ public class Product {
     }
 
     static void removeProd(){
-        Scanner scanner = new Scanner(System.in);
         int removalType = 0;
         while (removalType != 3) {
                 System.out.println("\n--- Removal Type  - Select an option---");
