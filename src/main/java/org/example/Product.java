@@ -81,56 +81,59 @@ public class Product {
         return true;
     }
 
+    static Type foodTypeMenu(){
+        Scanner scanner = new Scanner(System.in);
+        Type type = null;
+        boolean validType = false;
+        while (!validType) {
+            for (Type t : Type.values()) {
+                System.out.println(t);
+            }
+            String userInputType = scanner.nextLine();
+
+            try {
+                switch (userInputType) {
+                    case "1":
+                        type = Type.BURGER;
+                        validType = true;
+                        break;
+                    case "2":
+                        type = Type.PIZZA;
+                        validType = true;
+                        break;
+                    case "3":
+                        type = Type.FRIES;
+                        validType = true;
+                        break;
+                    case "4":
+                        type = Type.SANDWICH;
+                        validType = true;
+                        break;
+                    case "5":
+                        type = Type.HOTDOG;
+                        validType = true;
+                        break;
+                    default:
+                        System.out.println("Invalid food type, choose from 1 - 5");
+
+                }
+            } catch (IllegalArgumentException e) {
+                System.out.println("invalid type, please try again");
+            }
+        }
+        return type;
+    }
+
 
 
     static void addProd(){
         if (checkLimits()) {
 
             Scanner scanner = new Scanner(System.in);
-
             // TYPE
             //Prints ENUM and let the user choose by typing
-            Type type = null;
-            boolean validType = false;
-            while (!validType) {
-
-                System.out.println("Choose a type of food: ");
-                for (Type t : Type.values()) {
-                    System.out.println(t);
-                }
-                String userInputType = scanner.nextLine().toUpperCase();
-
-                try {
-                    String choice = userInputType;
-                    switch (choice) {
-                        case "1":
-                            type = Type.BURGER;
-                            validType = true;
-                            break;
-                        case "2":
-                            type = Type.PIZZA;
-                            validType = true;
-                            break;
-                        case "3":
-                            type = Type.FRIES;
-                            validType = true;
-                            break;
-                        case "4":
-                            type = Type.SANDWICH;
-                            validType = true;
-                            break;
-                        case "5":
-                            type = Type.HOTDOG;
-                            validType = true;
-                            break;
-                        default:
-                            System.out.println("Invalid food type, choose from 1 - 5");
-
-                    }
-                } catch (IllegalArgumentException e) {
-                    System.out.println("invalid type, please try again");
-                }
-            }
+            System.out.println("Choose a type of food: ");
+            Type type = foodTypeMenu();
 
             // NAME
             // User can choose name of the food
@@ -251,53 +254,12 @@ public class Product {
         }
     }
 
-    static Product searchFoodType(){
+    static void searchFoodType(){
         Scanner scanner = new Scanner(System.in);
         Type type = null;
-        boolean validType = false;
-        while (!validType) {
-
-            System.out.println("What type of food do you want to search for? ");
-            for (Type t : Type.values()) {
-                System.out.println(t);
-            }
-            String userInputType = scanner.nextLine().toUpperCase();
-
-            try {
-                String choice = userInputType;
-                switch (choice) {
-                    case "1":
-                        type = Type.BURGER;
-                        validType = true;
-                        break;
-                    case "2":
-                        type = Type.PIZZA;
-                        validType = true;
-                        break;
-                    case "3":
-                        type = Type.FRIES;
-                        validType = true;
-                        break;
-                    case "4":
-                        type = Type.SANDWICH;
-                        validType = true;
-                        break;
-                    case "5":
-                        type = Type.HOTDOG;
-                        validType = true;
-                        break;
-                    default:
-                        System.out.println("Invalid food type, choose from 1 - 5");
-
-                }
-            } catch (IllegalArgumentException e) {
-                System.out.println("invalid type, please try again");
-            }
-        }
-
+        System.out.println("What type of food do you want to search for? ");
+        foodTypeMenu();
         boolean found = false;
-
-
         for (Product p : productQueue) {
             if (p.getType() == type) {
                 System.out.println(p + " ");
@@ -307,8 +269,6 @@ public class Product {
         if(!found){
             System.out.println("No results found");
         }
-
-        return null;
 
     }
 
