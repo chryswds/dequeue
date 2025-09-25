@@ -44,6 +44,34 @@ public class Product {
         return date;
     }
 
+    public void setType(Type type) {
+        this.type = type;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setWeight(double weight) {
+        this.weight = weight;
+    }
+
+    public void setBestBefore(Date bestBefore) {
+        this.bestBefore = bestBefore;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public static Deque<Product> getProductQueue() {
+        return productQueue;
+    }
+
+    public static void setProductQueue(Deque<Product> productQueue) {
+        Product.productQueue = productQueue;
+    }
+
     static Deque<Product> productQueue = new Deque<>();
 
     static boolean checkLimits(){
@@ -234,8 +262,11 @@ public class Product {
                     case 2:
                         removeLastTray();
                         break;
+                    case 3:
+                        System.out.println("Removal cancelled");
+                        break;
                     default:
-                        System.out.println("Invalid input, please enter a valid option - choose between 1 to 3");
+                        System.out.println("Choose between 1 and 3");
                 }
         }
     }
