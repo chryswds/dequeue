@@ -12,9 +12,9 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
 
-        String choice = "";
+        int choice = 0;
 
-        while(!choice.equals("4")) {
+        while(choice != 4) {
             try {
                 System.out.println("-----TRAY----");
                 showItems();
@@ -26,39 +26,29 @@ public class Main {
                 System.out.println("4. Exit");
                 System.out.println("5. Load Dummy Data");
                 System.out.print("Choose an option: ");
-                choice = scanner.nextLine().trim().toLowerCase();
+                choice = scanner.nextInt();
 
-                if (choice.equals("1")) {
-                    addProd();
-                } else if (choice.equals("2")) {
-                    String removalType = "";
-                    while (!removalType.equals("3")) {
-                        try {
-                            System.out.println("\n--- Removal Type  - Select an option---");
-                            System.out.print("1. Remove product from the first tray");
-                            peekFirstItem();
-                            System.out.print("2. Remove product from the last tray");
-                            peekLastItem();
-                            System.out.println("3. Cancel");
-                            removalType = scanner.nextLine().trim().toLowerCase();
+                switch (choice) {
+                    case 1:
+                        addProd();
+                        break;
+                    case 2:
+                        removeProd();
+                        break;
+                    case 3:
+                        searchFoodType();
+                        break;
+                    case 5:
+                        loadDummyData();
+                        break;
+                    default:
+                        System.out.println("Choose between 1 and 5");
 
-                            if (removalType.equals("1")) {
-                                removeFirstTray();
-                            }else if (removalType.equals("2")) {
-                                removeLastTray();
-                            }
-                        }catch (Exception e){
-                            System.out.println("Invalid input");
-                        }
-                    }
-                }else if (choice.equals("3")) {
-                    searchFoodType();
-                } else if (choice.equals("5")) {
-                    loadDummyData();
                 }
 
             }catch (Exception e){
-                System.out.println("Not a valid choice");
+                System.out.println("Invalid choice - insert a number");
+                scanner.nextLine();
             }
         }
 

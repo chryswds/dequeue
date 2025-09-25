@@ -28,54 +28,27 @@ public class Product {
         return type;
     }
 
-    public void setType(Type type) {
-        this.type = type;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public double getWeight() {
         return weight;
     }
 
-    public void setWeight(double weight) {
-        this.weight = weight;
-    }
-
     public Date getBestBefore() {
         return bestBefore;
-    }
-
-    public void setBestBefore(Date bestBefore) {
-        this.bestBefore = bestBefore;
     }
 
     public Date getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
     static Deque<Product> productQueue = new Deque<>();
-    static int maxSize = 8;
 
     static boolean checkLimits(){
+        int maxSize = 8;
         if (productQueue.size() == maxSize){
-            return false;
-        }
-        return true;
-    }
-
-    static boolean checkEmpty(){
-        if(productQueue.isEmpty()){
             return false;
         }
         return true;
@@ -123,8 +96,6 @@ public class Product {
         }
         return type;
     }
-
-
 
     static void addProd(){
         if (checkLimits()) {
@@ -202,20 +173,9 @@ public class Product {
 
     }
 
-    static void showItems(){
-        if(productQueue.isEmpty()) {
-            System.out.println("All trays are empty");
-        } else if (!checkLimits()) {
-            for (Product p : productQueue) {
-                System.out.println(p + " ");
-            }
-            System.out.println("TRAY IS FULL");
-        } else {
-            for (Product p : productQueue) {
-                System.out.println(p + " ");
-            }
-        }
-    }
+
+
+
 
     static void peekFirstItem(){
         if(productQueue.isEmpty()) {
@@ -246,11 +206,51 @@ public class Product {
             System.out.println("Cannot remove from empty tray");
         }
     }
+
     static void removeLastTray(){
         try {
             productQueue.removeLast();
         } catch (Exception e){
             System.out.println("Cannot remove from empty tray");
+        }
+    }
+
+    static void removeProd(){
+        Scanner scanner = new Scanner(System.in);
+        int removalType = 0;
+        while (removalType != 3) {
+                System.out.println("\n--- Removal Type  - Select an option---");
+                System.out.print("1. Remove product from the first tray");
+                peekFirstItem();
+                System.out.print("2. Remove product from the last tray");
+                peekLastItem();
+                System.out.println("3. Cancel");
+                removalType = scanner.nextInt();
+
+                switch (removalType) {
+                    case 1:
+                        removeFirstTray();
+                        break;
+                    case 2:
+                        break;
+                    default:
+                        System.out.println("Invalid input, please enter a valid option - choose between 1 to 3");
+                }
+        }
+    }
+
+    static void showItems(){
+        if(productQueue.isEmpty()) {
+            System.out.println("All trays are empty");
+        } else if (!checkLimits()) {
+            for (Product p : productQueue) {
+                System.out.println(p + " ");
+            }
+            System.out.println("TRAY IS FULL");
+        } else {
+            for (Product p : productQueue) {
+                System.out.println(p + " ");
+            }
         }
     }
 
@@ -270,7 +270,7 @@ public class Product {
 
     }
 
-            static void loadDummyData() {
+    static void loadDummyData() {
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -303,7 +303,6 @@ public class Product {
             System.out.println("❌ Error loading dummy data: " + e.getMessage());
         }
     }
-
 
     @Override
     public String toString() {
