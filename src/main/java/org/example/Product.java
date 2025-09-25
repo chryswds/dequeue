@@ -264,8 +264,32 @@ public class Product {
             String userInputType = scanner.nextLine().toUpperCase();
 
             try {
-                type = Type.valueOf(userInputType);
-                validType = true;
+                String choice = userInputType;
+                switch (choice) {
+                    case "1":
+                        type = Type.BURGER;
+                        validType = true;
+                        break;
+                    case "2":
+                        type = Type.PIZZA;
+                        validType = true;
+                        break;
+                    case "3":
+                        type = Type.FRIES;
+                        validType = true;
+                        break;
+                    case "4":
+                        type = Type.SANDWICH;
+                        validType = true;
+                        break;
+                    case "5":
+                        type = Type.HOTDOG;
+                        validType = true;
+                        break;
+                    default:
+                        System.out.println("Invalid food type, choose from 1 - 5");
+
+                }
             } catch (IllegalArgumentException e) {
                 System.out.println("invalid type, please try again");
             }
