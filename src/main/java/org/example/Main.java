@@ -24,6 +24,7 @@ public class Main {
                 System.out.println("2. Remove Product");
                 System.out.println("3. Search Product category");
                 System.out.println("4. Exit");
+                System.out.println("5. Load Dummy Data");
                 System.out.print("Choose an option: ");
                 choice = scanner.nextLine().trim().toLowerCase();
 
@@ -52,6 +53,8 @@ public class Main {
                     }
                 }else if (choice.equals("3")) {
                     searchFoodType();
+                } else if (choice.equals("5")) {
+                    loadDummyData();
                 }
 
             }catch (Exception e){

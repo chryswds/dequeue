@@ -270,6 +270,39 @@ public class Product {
 
     }
 
+            static void loadDummyData() {
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+            // Clear existing data
+            productQueue = new Deque<>();
+
+            // Create products with specific dates (adjust these dates as needed)
+            Product burger = new Product(Type.BURGER, "Whopper", 250.0, dateFormat.parse("28/09/2025"));
+            Product pizza = new Product(Type.PIZZA, "Hawaiian", 400.0, dateFormat.parse("02/10/2025"));
+            Product fries = new Product(Type.FRIES, "Curly Fries", 120.5, dateFormat.parse("26/09/2025"));
+            Product sandwich = new Product(Type.SANDWICH, "BLT", 200.0, dateFormat.parse("30/09/2025"));
+            Product hotdog = new Product(Type.HOTDOG, "Classic Dog", 160.0, dateFormat.parse("27/09/2025"));
+            Product burger1 = new Product(Type.BURGER, "Helo-Burger", 350.0, dateFormat.parse("29/09/2025"));
+            Product pizza1 = new Product(Type.PIZZA, "Pizza-Chrys", 420.0, dateFormat.parse("03/10/2025"));
+            Product fries1 = new Product(Type.FRIES, "Barbs-Fries", 125.5, dateFormat.parse("27/09/2025"));
+
+            // Add to queue (first added will be last in queue due to addFirst)
+            productQueue.addFirst(hotdog);
+            productQueue.addFirst(sandwich);
+            productQueue.addFirst(fries);
+            productQueue.addFirst(pizza);
+            productQueue.addFirst(burger);
+            productQueue.addFirst(fries1);
+            productQueue.addFirst(pizza1);
+            productQueue.addFirst(burger1);
+
+            System.out.println("✅ Dummy data loaded! 5 products added to the queue.");
+
+        } catch (Exception e) {
+            System.out.println("❌ Error loading dummy data: " + e.getMessage());
+        }
+    }
 
 
     @Override
