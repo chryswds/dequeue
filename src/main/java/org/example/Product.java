@@ -232,6 +232,7 @@ public class Product {
                         removeFirstTray();
                         break;
                     case 2:
+                        removeLastTray();
                         break;
                     default:
                         System.out.println("Invalid input, please enter a valid option - choose between 1 to 3");
