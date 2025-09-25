@@ -213,10 +213,18 @@ public class Product {
     }
 
     static void removeFirstTray(){
-        productQueue.removeFirst();
+        try {
+            productQueue.removeFirst();
+        }catch (Exception e){
+            System.out.println("Cannot remove from empty tray");
+        }
     }
     static void removeLastTray(){
-        productQueue.removeLast();
+        try {
+            productQueue.removeLast();
+        } catch (Exception e){
+            System.out.println("Cannot remove from empty tray");
+        }
     }
 
     static Product searchFoodType(){
