@@ -45,7 +45,6 @@ public class Main {
                                 removeFirstTray();
                             }else if (removalType.equals("2")) {
                                 removeLastTray();
-
                             }
                         }catch (Exception e){
                             System.out.println("Invalid input");

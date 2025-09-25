@@ -5,5 +5,6 @@ public enum Type {
     PIZZA,
     FRIES,
     SANDWICH,
-    HOTDOG
+    HOTDOG;
+
 }
