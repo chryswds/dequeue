@@ -87,7 +87,7 @@ public class Product {
         boolean validType = false;
         while (!validType) {
             for (Type t : Type.values()) {
-                System.out.println(t);
+                System.out.println(t.getDisplayName());
             }
             String userInputType = scanner.nextLine();
 
@@ -255,10 +255,8 @@ public class Product {
     }
 
     static void searchFoodType(){
-        Scanner scanner = new Scanner(System.in);
-        Type type = null;
         System.out.println("What type of food do you want to search for? ");
-        foodTypeMenu();
+        Type type = foodTypeMenu();
         boolean found = false;
         for (Product p : productQueue) {
             if (p.getType() == type) {
