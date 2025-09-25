@@ -190,6 +190,28 @@ public class Product {
         }
     }
 
+    static void peekFirstItem(){
+        if(productQueue.isEmpty()) {
+            System.out.print(" - ");
+            System.out.println("All trays are empty");
+        } else {
+            System.out.println(" | " + " Item in the first tray : " + productQueue.peekFirst());
+            System.out.println("---------------------------------------------------------------------------------------------------------------------------------");
+            return;
+        }
+    }
+
+    static void peekLastItem(){
+        if(productQueue.isEmpty()) {
+            System.out.print(" - ");
+            System.out.println("All trays are empty");
+        }else {
+            System.out.println(" | " + " Item in the last tray : " + productQueue.peekLast());
+            System.out.println("---------------------------------------------------------------------------------------------------------------------------------");
+            return;
+        }
+    }
+
     static void removeFirstTray(){
         productQueue.removeFirst();
     }

@@ -32,6 +32,14 @@ public class Deque<Item> implements Iterable<Item> {
         return size == 0;
     }
 
+    public Item peekFirst(){
+        return first.item;
+    }
+    public Item peekLast(){
+        return last.item;
+    }
+
+
 
 
     public void addFirst(Item item){

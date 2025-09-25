@@ -33,9 +33,11 @@ public class Main {
                     String removalType = "";
                     while (!removalType.equals("3")) {
                         try {
-                            System.out.println("\n--- Removal Type ---");
-                            System.out.println("1. Remove product from the first tray");
-                            System.out.println("2. Remove product from the last tray");
+                            System.out.println("\n--- Removal Type  - Select an option---");
+                            System.out.print("1. Remove product from the first tray");
+                            peekFirstItem();
+                            System.out.print("2. Remove product from the last tray");
+                            peekLastItem();
                             System.out.println("3. Cancel");
                             removalType = scanner.nextLine().trim().toLowerCase();
 
