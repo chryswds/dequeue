@@ -66,8 +66,6 @@ public class Product {
         return true;
     }
 
-
-
     static void addProd(){
         if (checkLimits()) {
             // TYPE
@@ -77,10 +75,10 @@ public class Product {
             // User can choose name of the food
             System.out.println("Choose a name of food: ");
             String userInputName = scanner.nextLine();
-            // WEIGHT
-            double weight = productWeight();
             // prevents recursion
             scanner.nextLine();
+            // WEIGHT
+            double weight = productWeight();
             // DATE
             Date date = validate2weeks();
             // CREATE PRODUCT
