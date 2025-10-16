@@ -9,17 +9,24 @@ public class Menu  {
         int choice = 0;
         while(choice != 4) {
             try {
-                System.out.println("-----TRAY----");
+                System.out.println("\n╔════════════════════════════════════╗");
+                System.out.println("║            TRAY CONTENTS           ║");
+                System.out.println("╚════════════════════════════════════╝");
                 showItems();
-                System.out.println("--------------");
-                System.out.println("\n--- Menu ---");
-                System.out.println("1. Add Product");
-                System.out.println("2. Remove Product");
-                System.out.println("3. Search Product category");
-                System.out.println("4. Exit");
-                System.out.println("5. Load Dummy Data");
-                System.out.print("Choose an option: ");
+                System.out.println("════════════════════════════════════════\n");
+
+                System.out.println("┌────────────────────────────────────┐");
+                System.out.println("│             MAIN MENU              │");
+                System.out.println("├────────────────────────────────────┤");
+                System.out.println("│  1. Add Product                    │");
+                System.out.println("│  2. Remove Product                 │");
+                System.out.println("│  3. Search Product Category        │");
+                System.out.println("│  4. Exit                           │");
+                System.out.println("│  5. Load Dummy Data                │");
+                System.out.println("└────────────────────────────────────┘");
+                System.out.print("\n➤ Choose an option: (1-5): ");
                 choice = scanner.nextInt();
+                scanner.nextLine();
                 switch (choice) {
                     case 1:
                         addProd();
@@ -34,10 +41,14 @@ public class Menu  {
                         loadDummyData();
                         break;
                     default:
-                        System.out.println("Choose between 1 and 5");
+                        System.out.println("Exiting...");
+                        break;
                 }
             }catch (Exception e){
-                System.out.println("Invalid choice - insert a number");
+                System.out.println("┌───────────────────────────────────┐");
+                System.out.println("│      ⚠   INVALID CHOICE    ⚠      │");
+                System.out.println("│     Enter a number between 1-5    │");
+                System.out.println("└───────────────────────────────────┘");
                 scanner.nextLine();
             }
         }
@@ -47,10 +58,14 @@ public class Menu  {
         Type type = null;
         boolean validType = false;
         while (!validType) {
-            System.out.println("Choose a type of food:  ");
+            System.out.println("\n╔════════════════════════════════════╗");
+            System.out.println("║        SELECT FOOD TYPE            ║");
+            System.out.println("╚════════════════════════════════════╝");
             for (Type t : Type.values()) {
-                System.out.println(t.getDisplayName());
+                System.out.println("│  " + t.getDisplayName() + "                    │");
             }
+            System.out.println("──────────────────────────────────────");
+            System.out.print("\n➤ Enter your choice (1-5): ");
             String userInputType = scanner.nextLine();
 
             try {
@@ -76,15 +91,41 @@ public class Menu  {
                         validType = true;
                         break;
                     default:
-                        System.out.println("Invalid food type, choose from 1 - 5");
+                        System.out.println("┌───────────────────────────────────┐");
+                        System.out.println("│      ⚠   INVALID CHOICE    ⚠      │");
+                        System.out.println("│     Enter a number between 1-5    │");
+                        System.out.println("└───────────────────────────────────┘");
 
                 }
             } catch (IllegalArgumentException e) {
-                System.out.println("invalid type, please try again");
+                System.out.println("┌───────────────────────────────────┐");
+                System.out.println("│      ⚠   INVALID CHOICE    ⚠      │");
+                System.out.println("│     Enter a number between 1-5    │");
+                System.out.println("└───────────────────────────────────┘");
             }
         }
         return type;
     }
+
+    static void removeProdMenu(){
+        System.out.println("\n╔════════════════════════════════════════════════════════════════╗");
+        System.out.println("║                    PRODUCT REMOVAL MENU                        ║");
+        System.out.println("╠════════════════════════════════════════════════════════════════╣");
+        System.out.println("║  1. Remove from FIRST tray                                     ║");
+        System.out.println("╠────────────────────────────────────────────────────────────────╣");
+        peekFirstItem();
+        System.out.println("╠────────────────────────────────────────────────────────────────╣");
+        System.out.println("║  2. Remove from LAST tray                                      ║");
+        System.out.println("╠────────────────────────────────────────────────────────────────╣");
+        peekLastItem();
+        System.out.println("╠────────────────────────────────────────────────────────────────╣");
+        System.out.println("║  3. Remove all trays                                           ║");
+        System.out.println("╠────────────────────────────────────────────────────────────────╣");
+        System.out.println("║  4. Cancel                                                     ║");
+        System.out.println("╚════════════════════════════════════════════════════════════════╝");
+        System.out.print("\n➤ Select option (1-4): ");
+    }
+
 }
 
 

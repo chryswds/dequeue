@@ -73,10 +73,8 @@ public class Product {
             Type type = foodTypeMenu();
             // NAME
             // User can choose name of the food
-            System.out.println("Choose a name of food: ");
+            System.out.println("➤ Enter the food name: ");
             String userInputName = scanner.nextLine();
-            // prevents recursion
-            scanner.nextLine();
             // WEIGHT
             double weight = productWeight();
             // DATE
@@ -86,7 +84,10 @@ public class Product {
             productQueue.addFirst(foodItem);
             System.out.println("Successfully added food item");
         } else {
-            System.out.println("cant have more than 8 trays");
+            System.out.println("┌────────────────────────────────────┐");
+            System.out.println("│             ⚠   FULL   ⚠           │");
+            System.out.println("│ You reached the maximum of 8 trays │");
+            System.out.println("└────────────────────────────────────┘");
         }
 
     }
@@ -98,7 +99,7 @@ public class Product {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         dateFormat.setLenient(false);
         while (!validDate) {
-            System.out.print("Enter best before date (dd/MM/yyyy) - (Max 2 weeks from today) : ");
+            System.out.print("➤ Enter best before date (dd/MM/yyyy) - (Max 2 weeks from today) : ");
             String inputDate = scanner.nextLine();
             try {
                 date = dateFormat.parse(inputDate);
@@ -109,16 +110,25 @@ public class Product {
                 Date twoWeeksLater = currentDateAfter2Weeks.getTime();
 
                 if (date.after(twoWeeksLater)) {
-                    System.out.println("the best before date cant be more than 2 weeks from today");
+                    System.out.println("┌───────────────────────────────────┐");
+                    System.out.println("│       ⚠   INVALID DATE   ⚠        │");
+                    System.out.println("│      Max 2 weeks from today       │");
+                    System.out.println("└───────────────────────────────────┘");
                 } else if (date.before(today)) {
-                    System.out.println("The date cannot be in the past");
+                    System.out.println("┌───────────────────────────────────┐");
+                    System.out.println("│       ⚠   INVALID DATE   ⚠        │");
+                    System.out.println("│   The date can't be in the past   │");
+                    System.out.println("└───────────────────────────────────┘");
                 } else {
 
                     validDate = true;
                     return date;
                 }
             } catch (ParseException e) {
-                System.out.println("invalid date, please enter a valid date");
+                System.out.println("┌───────────────────────────────────┐");
+                System.out.println("│       ⚠   INVALID DATE   ⚠        │");
+                System.out.println("│     Enter a date (dd/MM/yyyy)     │");
+                System.out.println("└───────────────────────────────────┘");
             }
         }
         return null;
@@ -129,17 +139,23 @@ public class Product {
         boolean validWeight = false;
         while (!validWeight) {
             // user specifies how much the food weights
-            System.out.println("How much it weights? (grams)");
+            System.out.println("➤ Enter the weight? (grams)");
             try {
                 weight = scanner.nextDouble();
                 if (weight > 0) {
                     validWeight = true;
                     return weight;
                 } else {
-                    System.out.println("Invalid weight, it must be positive");
+                    System.out.println("┌───────────────────────────────────┐");
+                    System.out.println("│      ⚠   INVALID WEIGHT   ⚠       │");
+                    System.out.println("│     Choose a positive number      │");
+                    System.out.println("└───────────────────────────────────┘");
                 }
             } catch (InputMismatchException e) {
-                System.out.println("invalid number, please enter a valid number");
+                System.out.println("┌───────────────────────────────────┐");
+                System.out.println("│      ⚠   INVALID WEIGHT   ⚠       │");
+                System.out.println("│       Choose a valid number       │");
+                System.out.println("└───────────────────────────────────┘");
                 scanner.nextLine();
             }
         }
@@ -148,23 +164,29 @@ public class Product {
 
     static void peekFirstItem(){
         if(productQueue.isEmpty()) {
-            System.out.print(" - ");
-            System.out.println("All trays are empty");
+            System.out.println("┌───────────────────────────────────┐");
+            System.out.println("│   ⚠   All trays are empty    ⚠    │");
+            System.out.println("└───────────────────────────────────┘");
         } else {
-            System.out.println(" | " + " Item in the first tray : " + productQueue.peekFirst());
-            System.out.println("---------------------------------------------------------------------------------------------------------------------------------");
-            return;
+            System.out.println("╔════════════════════════════════════════════════════════════════╗");
+            System.out.println("║                      FIRST TRAY ITEM                           ║");
+            System.out.println("╠════════════════════════════════════════════════════════════════╣");
+            System.out.println( productQueue.peekFirst());
+            System.out.println("╚════════════════════════════════════════════════════════════════╝");
         }
     }
 
     static void peekLastItem(){
         if(productQueue.isEmpty()) {
-            System.out.print(" - ");
-            System.out.println("All trays are empty");
-        }else {
-            System.out.println(" | " + " Item in the last tray : " + productQueue.peekLast());
-            System.out.println("---------------------------------------------------------------------------------------------------------------------------------");
-            return;
+            System.out.println("┌───────────────────────────────────┐");
+            System.out.println("│   ⚠   All trays are empty    ⚠    │");
+            System.out.println("└───────────────────────────────────┘");
+        } else {
+            System.out.println("╔════════════════════════════════════════════════════════════════╗");
+            System.out.println("║                       LAST TRAY ITEM                           ║");
+            System.out.println("╠════════════════════════════════════════════════════════════════╣");
+            System.out.println( productQueue.peekLast());
+            System.out.println("╚════════════════════════════════════════════════════════════════╝");
         }
     }
 
@@ -172,7 +194,9 @@ public class Product {
         try {
             productQueue.removeFirst();
         }catch (Exception e){
-            System.out.println("Cannot remove from empty tray");
+            System.out.println("┌──────────────────────────────────────┐");
+            System.out.println("│ ⚠ You can't remove from empty tray ⚠ │");
+            System.out.println("└──────────────────────────────────────┘");
         }
     }
 
@@ -180,19 +204,32 @@ public class Product {
         try {
             productQueue.removeLast();
         } catch (Exception e){
-            System.out.println("Cannot remove from empty tray");
+            System.out.println("┌──────────────────────────────────────┐");
+            System.out.println("│ ⚠ You can't remove from empty tray ⚠ │");
+            System.out.println("└──────────────────────────────────────┘");
         }
+    }
+
+    static void removeAllTrays(){
+        try{
+            while (!productQueue.isEmpty()){
+                productQueue.removeFirst();
+            }
+            System.out.println("┌───────────────────────────────────┐");
+            System.out.println("│     All trays have been removed   │");
+            System.out.println("└───────────────────────────────────┘");
+        } catch (Exception e){
+            System.out.println("┌───────────────────────────────────┐");
+            System.out.println("│     All trays have been removed   │");
+            System.out.println("└───────────────────────────────────┘");
+        }
+
     }
 
     static void removeProd(){
         int removalType = 0;
-        while (removalType != 3) {
-                System.out.println("\n--- Removal Type  - Select an option---");
-                System.out.print("1. Remove product from the first tray");
-                peekFirstItem();
-                System.out.print("2. Remove product from the last tray");
-                peekLastItem();
-                System.out.println("3. Cancel");
+        while (removalType != 4 && removalType != 3) {
+                removeProdMenu();
                 removalType = scanner.nextInt();
 
                 switch (removalType) {
@@ -203,22 +240,29 @@ public class Product {
                         removeLastTray();
                         break;
                     case 3:
-                        System.out.println("Removal cancelled");
+                        removeAllTrays();
+                        break;
+                    case 4:
+                        System.out.println("Exiting removal menu...");
                         break;
                     default:
-                        System.out.println("Choose between 1 and 3");
+                        System.out.print("\n➤ Enter your choice (1-5): ");
                 }
         }
     }
 
     static void showItems(){
         if(productQueue.isEmpty()) {
-            System.out.println("All trays are empty");
+            System.out.println("┌───────────────────────────────────┐");
+            System.out.println("│       ⚠   TRAY IS EMPTY   ⚠       │");
+            System.out.println("└───────────────────────────────────┘");
         } else if (!checkLimits()) {
             for (Product p : productQueue) {
                 System.out.println(p + " ");
             }
-            System.out.println("TRAY IS FULL");
+            System.out.println("┌───────────────────────────────────┐");
+            System.out.println("│        ⚠   TRAY IS FULL   ⚠       │");
+            System.out.println("└───────────────────────────────────┘");
         } else {
             for (Product p : productQueue) {
                 System.out.println(p + " ");
@@ -227,8 +271,14 @@ public class Product {
     }
 
     static void searchFoodType(){
+        System.out.println("─────────────────────────────────────────────");
         System.out.println("What type of food do you want to search for? ");
+        System.out.println("─────────────────────────────────────────────");
         Type type = foodTypeMenu();
+        System.out.println("\n┌────────────────────────────────────────────");
+        System.out.println("│  🔍 Searching for: " + type + "...");
+        System.out.println("└────────────────────────────────────────────┘\n");
+
         boolean found = false;
         for (Product p : productQueue) {
             if (p.getType() == type) {
@@ -237,7 +287,9 @@ public class Product {
             }
         }
         if(!found){
-            System.out.println("No results found");
+            System.out.println("┌───────────────────────────────────┐");
+            System.out.println("│       ⚠  NO RESULT FOUND  ⚠       │");
+            System.out.println("└───────────────────────────────────┘");
         }
 
     }
@@ -269,10 +321,10 @@ public class Product {
             productQueue.addFirst(pizza1);
             productQueue.addFirst(burger1);
 
-            System.out.println("✅ Dummy data loaded! 5 products added to the queue.");
+            System.out.println("Dummy data loaded! 8 products added to the queue.");
 
         } catch (Exception e) {
-            System.out.println("❌ Error loading dummy data: " + e.getMessage());
+            System.out.println("Error loading dummy data: " + e.getMessage());
         }
     }
 
@@ -284,6 +336,11 @@ public class Product {
         String addedDate = (getDate() != null) ? format.format(getDate()) : "N/A";
         String bestBeforeDate = (getBestBefore() != null) ? format.format(getBestBefore()) : "N/A";
 
-        return "Type: " + getType() + ", Name: " + getName() + ", Weight: " + getWeight() + "g" + ", Time Added: " + addedDate + ", Best Before: " + bestBeforeDate ;
+        return "┌─ " + getType() + " ────────────────────────────────────────────────────\n" +
+                "│ Name: " + getName() + "\n" +
+                "│ Weight: " + getWeight() + "g " +
+                "│ Added: " + addedDate + " " +
+                "│ Best Before: " + bestBeforeDate + " \n" +
+                "└───────────────────────────────────────────────────────────────┘";
     }
 }
