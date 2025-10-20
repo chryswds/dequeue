@@ -274,7 +274,21 @@ public class Product {
             return;
         }
 
-        Action lastAction = undoStack.pop();
+        Action lastAction = undoStack.peek();
+        int itemsToRestore = lastAction.getRemovedProducts().size();
+        int maxSize = 8;
+
+        if (productQueue.size() + itemsToRestore > maxSize) {
+            System.out.println("┌─────────────────────────────────────────────┐");
+            System.out.println("│         ⚠    CANNOT UNDO ACTION   ⚠         │");
+            System.out.println("│     Restoring would exceed maximum of 8     │");
+            System.out.println("│  Current: " + productQueue.size() + " items | Would restore: " + itemsToRestore + " items  │");
+            System.out.println("└─────────────────────────────────────────────┘");
+            return;
+        }
+
+        lastAction = undoStack.pop();
+
         switch (lastAction.getType()) {
             case REMOVE_FIRST:
                 Product product = lastAction.getRemovedProducts().get(0);
@@ -306,7 +320,8 @@ public class Product {
                     productQueue.addFirst(p);
                 }
                 System.out.println("┌───────────────────────────────────┐");
-                System.out.println("│     ✓ Last removal undone ✓       │");
+                System.out.println("│    ✓ Undo: All trays restored ✓   │");
+                System.out.println("│           (" + lastAction.getRemovedProducts().size() + " products)            │");
                 System.out.println("└───────────────────────────────────┘");
                 break;
         }
