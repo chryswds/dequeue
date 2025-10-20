@@ -294,6 +294,111 @@ public class Product {
 
     }
 
+    static void searchByName(){
+        System.out.println("─────────────────────────────────────────────────────");
+        System.out.println("➤ Enter the name of the food you want to search for: ");
+        System.out.println("─────────────────────────────────────────────────────");
+        String name = scanner.nextLine();
+        System.out.println("\n┌────────────────────────────────────────────");
+        System.out.println("│  🔍 Searching for: " + name + "...");
+        System.out.println("└────────────────────────────────────────────┘\n");
+
+        boolean found = false;
+        for (Product p : productQueue) {
+            if (p.getName().equalsIgnoreCase(name)) {
+                System.out.println(p + " ");
+                found = true;
+            }
+        }
+        if(!found){
+            System.out.println("┌───────────────────────────────────┐");
+            System.out.println("│       ⚠  NO RESULT FOUND  ⚠       │");
+            System.out.println("└───────────────────────────────────┘");
+        }
+
+    }
+
+    static void searchByBestBeforeDate(){
+        Date date = validate2weeks();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        System.out.println("\n┌────────────────────────────────────────────────────────────────");
+        System.out.println("│  🔍 Searching for products with best before date: " + dateFormat.format(date) + "...");
+        System.out.println("└────────────────────────────────────────────────────────────────────┘\n");
+
+        boolean found = false;
+        for (Product p : productQueue) {
+            if (p.getBestBefore().equals(date)) {
+                System.out.println(p + " ");
+                found = true;
+            }
+        }
+        if(!found){
+            System.out.println("┌───────────────────────────────────┐");
+            System.out.println("│       ⚠  NO RESULT FOUND  ⚠       │");
+            System.out.println("└───────────────────────────────────┘");
+        }
+
+    }
+
+    private static Date truncateTime(Date d) {
+        if (d == null) return null;
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(d);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        return cal.getTime();
+    }
+
+    static void searchByAddedDate(){
+        System.out.println("─────────────────────────────────────────────");
+        System.out.println("What added date do you want to search for? ");
+        System.out.println("─────────────────────────────────────────────");
+        String addedDate = scanner.nextLine();
+        if (addedDate.trim().isEmpty()) {
+            System.out.println("┌───────────────────────────────────┐");
+            System.out.println("│       ⚠   INVALID DATE   ⚠        │");
+            System.out.println("│     Enter a date (dd/MM/yyyy)     │");
+            System.out.println("└───────────────────────────────────┘");
+            return;
+        }
+
+        Date date;
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            dateFormat.setLenient(false);
+            date = dateFormat.parse(addedDate);
+        } catch (ParseException e) {
+            System.out.println("┌───────────────────────────────────┐");
+            System.out.println("│       ⚠   INVALID DATE   ⚠        │");
+            System.out.println("│     Enter a date (dd/MM/yyyy)     │");
+            System.out.println("└───────────────────────────────────┘");
+            return;
+        }
+
+        date = truncateTime(date);
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        System.out.println("\n┌────────────────────────────────────────────────────────────────");
+        System.out.println("│  🔍 Searching for products added on date: " + dateFormat.format(date) + "...");
+        System.out.println("└────────────────────────────────────────────────────────────────────┘\n");
+
+        boolean found = false;
+        for (Product p : productQueue) {
+            if (p.getDate()!= null && truncateTime(p.getDate()).equals(date)) {
+                System.out.println(p + " ");
+                found = true;
+            }
+        }
+        if(!found){
+            System.out.println("┌───────────────────────────────────┐");
+            System.out.println("│       ⚠  NO RESULT FOUND  ⚠       │");
+            System.out.println("└───────────────────────────────────┘");
+        }
+
+    }
+
     static void loadDummyData() {
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -302,14 +407,14 @@ public class Product {
             productQueue = new Deque<>();
 
             // Create products with specific dates (adjust these dates as needed)
-            Product burger = new Product(Type.BURGER, "Whopper", 250.0, dateFormat.parse("28/09/2025"));
-            Product pizza = new Product(Type.PIZZA, "Hawaiian", 400.0, dateFormat.parse("02/10/2025"));
-            Product fries = new Product(Type.FRIES, "Curly Fries", 120.5, dateFormat.parse("26/09/2025"));
-            Product sandwich = new Product(Type.SANDWICH, "BLT", 200.0, dateFormat.parse("30/09/2025"));
-            Product hotdog = new Product(Type.HOTDOG, "Classic Dog", 160.0, dateFormat.parse("27/09/2025"));
-            Product burger1 = new Product(Type.BURGER, "Helo-Burger", 350.0, dateFormat.parse("29/09/2025"));
-            Product pizza1 = new Product(Type.PIZZA, "Pizza-Chrys", 420.0, dateFormat.parse("03/10/2025"));
-            Product fries1 = new Product(Type.FRIES, "Barbs-Fries", 125.5, dateFormat.parse("27/09/2025"));
+            Product burger = new Product(Type.BURGER, "Whopper", 250.0, dateFormat.parse("28/10/2025"));
+            Product pizza = new Product(Type.PIZZA, "Hawaiian", 400.0, dateFormat.parse("30/10/2025"));
+            Product fries = new Product(Type.FRIES, "Curly Fries", 120.5, dateFormat.parse("26/10/2025"));
+            Product sandwich = new Product(Type.SANDWICH, "BLT", 200.0, dateFormat.parse("30/10/2025"));
+            Product hotdog = new Product(Type.HOTDOG, "Classic Dog", 160.0, dateFormat.parse("27/10/2025"));
+            Product burger1 = new Product(Type.BURGER, "Helo-Burger", 350.0, dateFormat.parse("29/10/2025"));
+            Product pizza1 = new Product(Type.PIZZA, "Pizza-Chrys", 420.0, dateFormat.parse("24/10/2025"));
+            Product fries1 = new Product(Type.FRIES, "Barbs-Fries", 125.5, dateFormat.parse("27/10/2025"));
 
             // Add to queue (first added will be last in queue due to addFirst)
             productQueue.addFirst(hotdog);

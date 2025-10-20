@@ -20,7 +20,7 @@ public class Menu  {
                 System.out.println("├────────────────────────────────────┤");
                 System.out.println("│  1. Add Product                    │");
                 System.out.println("│  2. Remove Product                 │");
-                System.out.println("│  3. Search Product Category        │");
+                System.out.println("│  3. Search Product                 │");
                 System.out.println("│  4. Exit                           │");
                 System.out.println("│  5. Load Dummy Data                │");
                 System.out.println("└────────────────────────────────────┘");
@@ -35,7 +35,8 @@ public class Menu  {
                         removeProd();
                         break;
                     case 3:
-                        searchFoodType();
+                        searchMenu();
+
                         break;
                     case 5:
                         loadDummyData();
@@ -107,23 +108,73 @@ public class Menu  {
         return type;
     }
 
-    static void removeProdMenu(){
-        System.out.println("\n╔════════════════════════════════════════════════════════════════╗");
-        System.out.println("║                    PRODUCT REMOVAL MENU                        ║");
-        System.out.println("╠════════════════════════════════════════════════════════════════╣");
-        System.out.println("║  1. Remove from FIRST tray                                     ║");
-        System.out.println("╠────────────────────────────────────────────────────────────────╣");
-        peekFirstItem();
-        System.out.println("╠────────────────────────────────────────────────────────────────╣");
-        System.out.println("║  2. Remove from LAST tray                                      ║");
-        System.out.println("╠────────────────────────────────────────────────────────────────╣");
-        peekLastItem();
-        System.out.println("╠────────────────────────────────────────────────────────────────╣");
-        System.out.println("║  3. Remove all trays                                           ║");
-        System.out.println("╠────────────────────────────────────────────────────────────────╣");
-        System.out.println("║  4. Cancel                                                     ║");
-        System.out.println("╚════════════════════════════════════════════════════════════════╝");
-        System.out.print("\n➤ Select option (1-4): ");
+    static void searchMenu() {
+        int choice = 0;
+        while (choice != 5) {
+            try {
+                System.out.println("\n╔════════════════════════════════════╗");
+                System.out.println("║           SEARCH PRODUCT BY        ║");
+                System.out.println("╠═══════════════════════════════════─╣");
+                System.out.println("║  1. Name                           ║");
+                System.out.println("║  2. Type                           ║");
+                System.out.println("║  3. Added Date                     ║");
+                System.out.println("║  4. Best Before Date               ║");
+                System.out.println("╠────────────────────────────────────╣");
+                System.out.println("║  5. Cancel                         ║");
+                System.out.println("╚════════════════════════════════════╝");
+                System.out.print("\n➤ Select option (1-5): ");
+                choice = scanner.nextInt();
+                scanner.nextLine();
+                switch (choice) {
+                    case 1:
+                        searchByName();
+                        break;
+                    case 2:
+                        searchFoodType();
+                        break;
+                    case 3:
+                        searchByAddedDate();
+                        break;
+                    case 4:
+                        searchByBestBeforeDate();
+                        break;
+                    case 5:
+                        System.out.println("Search cancelled");
+                        break;
+                    default:
+                        System.out.println("Choose between 1 and 4");
+                }
+            }
+            catch (Exception e){
+                System.out.println("┌───────────────────────────────────┐");
+                System.out.println("│      ⚠   INVALID CHOICE    ⚠      │");
+                System.out.println("│     Enter a number between 1-4    │");
+                System.out.println("└───────────────────────────────────┘");
+                scanner.nextLine();
+            }
+        }
+    }
+
+    static void removeProdMenu() {
+
+
+                    System.out.println("\n╔════════════════════════════════════════════════════════════════╗");
+                    System.out.println("║                    PRODUCT REMOVAL MENU                        ║");
+                    System.out.println("╠════════════════════════════════════════════════════════════════╣");
+                    System.out.println("║  1. Remove from FIRST tray                                     ║");
+                    System.out.println("╠────────────────────────────────────────────────────────────────╣");
+                    peekFirstItem();
+                    System.out.println("╠────────────────────────────────────────────────────────────────╣");
+                    System.out.println("║  2. Remove from LAST tray                                      ║");
+                    System.out.println("╠────────────────────────────────────────────────────────────────╣");
+                    peekLastItem();
+                    System.out.println("╠────────────────────────────────────────────────────────────────╣");
+                    System.out.println("║  3. Remove all trays                                           ║");
+                    System.out.println("╠────────────────────────────────────────────────────────────────╣");
+                    System.out.println("║  4. Cancel                                                     ║");
+                    System.out.println("╚════════════════════════════════════════════════════════════════╝");
+                    System.out.print("\n➤ Select option (1-4): ");
+
     }
 
 }
