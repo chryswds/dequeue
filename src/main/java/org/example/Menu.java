@@ -171,9 +171,11 @@ public class Menu  {
                     System.out.println("╠────────────────────────────────────────────────────────────────╣");
                     System.out.println("║  3. Remove all trays                                           ║");
                     System.out.println("╠────────────────────────────────────────────────────────────────╣");
-                    System.out.println("║  4. Cancel                                                     ║");
+                    System.out.println("║  4. Undo the last action                                       ║");
+                    System.out.println("╠────────────────────────────────────────────────────────────────╣");
+                    System.out.println("║  5. Cancel                                                     ║");
                     System.out.println("╚════════════════════════════════════════════════════════════════╝");
-                    System.out.print("\n➤ Select option (1-4): ");
+                    System.out.print("\n➤ Select option (1-5): ");
 
     }
 

@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.Stack;
 import static org.example.Menu.*;
 
 public class Product {
@@ -56,6 +57,7 @@ public class Product {
 
     static Deque<Product> productQueue = new Deque<>();
     static Scanner scanner  = new Scanner(System.in);
+    static Stack<Action> undoStack = new Stack<>();
 
 
     static boolean checkLimits(){
@@ -192,7 +194,15 @@ public class Product {
 
     static void removeFirstTray(){
         try {
+            Product removed = productQueue.peekFirst();
+            Action action = new Action(ActionType.REMOVE_FIRST);
+            action.addProduct(removed);
+            undoStack.push(action);
+
             productQueue.removeFirst();
+            System.out.println("┌───────────────────────────────────┐");
+            System.out.println("│   ✓ First tray has been removed   │");
+            System.out.println("└───────────────────────────────────┘");
         }catch (Exception e){
             System.out.println("┌──────────────────────────────────────┐");
             System.out.println("│ ⚠ You can't remove from empty tray ⚠ │");
@@ -202,7 +212,15 @@ public class Product {
 
     static void removeLastTray(){
         try {
+            Product removed = productQueue.peekLast();
+            Action action = new Action(ActionType.REMOVE_LAST);
+            action.addProduct(removed);
+            undoStack.push(action);
+
             productQueue.removeLast();
+            System.out.println("┌───────────────────────────────────┐");;
+            System.out.println("│   ✓ Last tray has been removed    │");
+            System.out.println("└───────────────────────────────────┘");
         } catch (Exception e){
             System.out.println("┌──────────────────────────────────────┐");
             System.out.println("│ ⚠ You can't remove from empty tray ⚠ │");
@@ -211,24 +229,92 @@ public class Product {
     }
 
     static void removeAllTrays(){
-        try{
+        try {
+            if (productQueue.isEmpty()) {
+                System.out.println("┌───────────────────────────────┐");
+                System.out.println("│  All trays are already empty  │");
+                System.out.println("└───────────────────────────────┘");
+                return;
+            }
+
+            Action action = new Action(ActionType.REMOVE_ALL);
+
+            // Store all products in reverse order (from first to last)
+            Deque<Product> tempDeque = new Deque<>();
+            for (Product p : productQueue) {
+                tempDeque.addFirst(p);
+            }
+
+            // Add them to the action in correct order
+            for (Product p : tempDeque) {
+                action.addProduct(p);
+            }
+
+            undoStack.push(action);
+
             while (!productQueue.isEmpty()){
                 productQueue.removeFirst();
             }
             System.out.println("┌───────────────────────────────────┐");
-            System.out.println("│     All trays have been removed   │");
+            System.out.println("│   ✓ All trays have been removed   │");
             System.out.println("└───────────────────────────────────┘");
         } catch (Exception e){
             System.out.println("┌───────────────────────────────────┐");
-            System.out.println("│     All trays have been removed   │");
+            System.out.println("│  ⚠ All trays have been removed ⚠  │");
             System.out.println("└───────────────────────────────────┘");
         }
 
     }
 
+    static void undoLastAction(){
+        if (undoStack.isEmpty()) {
+            System.out.println("┌──────────────────────────────────┐");
+            System.out.println("│     ⚠   NO ACTION TO UNDO   ⚠    │");
+            System.out.println("└──────────────────────────────────┘");
+            return;
+        }
+
+        Action lastAction = undoStack.pop();
+        switch (lastAction.getType()) {
+            case REMOVE_FIRST:
+                Product product = lastAction.getRemovedProducts().get(0);
+                productQueue.addFirst(product);
+                System.out.println("┌──────────────────────────────────┐");
+                System.out.println("│     ✓ Last removal undone ✓      │");
+                System.out.println("└──────────────────────────────────┘");
+                break;
+
+            case REMOVE_LAST:
+                Product lastProduct = lastAction.getRemovedProducts().get(0);
+                Deque<Product> tempDeque = new Deque<>();
+                while (!productQueue.isEmpty()) {
+                    tempDeque.addFirst(productQueue.peekFirst());
+                    productQueue.removeFirst();
+                }
+                productQueue.addFirst(lastProduct);
+                for (Product p : tempDeque) {
+                    productQueue.addFirst(p);
+                }
+
+                System.out.println("┌───────────────────────────────────┐");
+                System.out.println("│     ✓ Last removal undone ✓       │");
+                System.out.println("└───────────────────────────────────┘");
+                break;
+
+            case REMOVE_ALL:
+                for (Product p : lastAction.getRemovedProducts()) {
+                    productQueue.addFirst(p);
+                }
+                System.out.println("┌───────────────────────────────────┐");
+                System.out.println("│     ✓ Last removal undone ✓       │");
+                System.out.println("└───────────────────────────────────┘");
+                break;
+        }
+    }
+
     static void removeProd(){
         int removalType = 0;
-        while (removalType != 4 && removalType != 3) {
+        while (removalType != 5) {
                 removeProdMenu();
                 removalType = scanner.nextInt();
 
@@ -243,6 +329,9 @@ public class Product {
                         removeAllTrays();
                         break;
                     case 4:
+                        undoLastAction();
+                        break;
+                    case 5:
                         System.out.println("Exiting removal menu...");
                         break;
                     default:
