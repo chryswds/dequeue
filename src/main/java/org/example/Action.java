@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Action {
     private ActionType type;
-    private List<Product> removedProducts;
+    private final List<Product> removedProducts;
 
     public Action(ActionType type) {
         this.type = type;
